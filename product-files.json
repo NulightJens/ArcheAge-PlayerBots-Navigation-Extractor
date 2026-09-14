@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    ".gitignore",
+    "CHANGELOG.md",
+    "FAMILY.md",
+    "LICENSE.GPL",
+    "LICENSE.MIT",
+    "LICENSE.md",
+    "README.md",
+    "extractor.json",
+    "extractor/AAEmu.NavigationExtractor/AAEmu.NavigationExtractor.csproj",
+    "extractor/AAEmu.NavigationExtractor/Program.cs",
+    "product-files.json",
+    "src/OfflineBaiGraph.cs",
+    "src/PrebuiltRoadSnapshot.cs"
+  ]
+}

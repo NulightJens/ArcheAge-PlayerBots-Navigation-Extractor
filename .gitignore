@@ -1,0 +1,7 @@
+bin/
+obj/
+__pycache__/
+*.pyc
+artifacts/
+output/
+.venv/

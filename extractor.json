@@ -1,0 +1,7 @@
+{
+  "name": "ArcheAge Navigation Extractor",
+  "version": "0.1.0-alpha.1",
+  "license": "GPL-3.0-or-later",
+  "status": "preview-candidate",
+  "hostBase": "62e3eb1d87da01194802ac886cd500134facad28"
+}
