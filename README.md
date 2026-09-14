@@ -1,4 +1,9 @@
-# ArcheAge Navigation Extractor
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/title-dark.svg" />
+    <img src="assets/title-light.svg" alt="ArcheAge PlayerBots — Navigation Extractor" width="100%" />
+  </picture>
+</p>
 
 [Download this preview](https://github.com/NulightJens/ArcheAge-PlayerBots-Navigation-Extractor/releases/tag/v0.1.0-alpha.1) · [Tool family](FAMILY.md)
 

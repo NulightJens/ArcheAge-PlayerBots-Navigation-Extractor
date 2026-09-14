@@ -8,6 +8,8 @@
     "LICENSE.MIT",
     "LICENSE.md",
     "README.md",
+    "assets/title-dark.svg",
+    "assets/title-light.svg",
     "extractor.json",
     "extractor/AAEmu.NavigationExtractor/AAEmu.NavigationExtractor.csproj",
     "extractor/AAEmu.NavigationExtractor/Program.cs",
