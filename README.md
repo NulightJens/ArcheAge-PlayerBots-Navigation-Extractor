@@ -2,8 +2,9 @@
 
 [Download this preview](https://github.com/NulightJens/ArcheAge-PlayerBots-Navigation-Extractor/releases/tag/v0.1.0-alpha.1) · [Tool family](FAMILY.md)
 
-Create an offline navigation snapshot from your local ArcheAge `game_pak` and optional
-recorded routes. It does not run a game client or server and does not redistribute game data.
+Build navigation maps and plan routes from your local ArcheAge `game_pak`.
+Optionally use recorded walks to help choose a route. Extraction runs offline;
+you supply the matching game data.
 
 **Preview 0.1.0-alpha.1 · ArcheAge 1.2 r208022 · .NET 10**
 
@@ -20,9 +21,8 @@ Provide `--game-pak`, `--output`, `--bounds minX,minY,maxX,maxY`, `--start x,y,z
 Choose a new output file; existing output is retained. Use a bounded region so the
 extraction fits your memory budget.
 
-The output describes the extracted graph and planned route. Successful extraction
-does not establish that a character can traverse every edge in the live game.
-The tool builds against the matching host and has extracted a bounded region
-from local r208022 data. Planned routes still require review in the live game.
+The output contains a navigation graph and a planned route. Check the route
+in game before using it for bots: obstacles, water and height changes can make
+a planned path impassable.
 
 [Changes](CHANGELOG.md) · [Tool family](FAMILY.md)
