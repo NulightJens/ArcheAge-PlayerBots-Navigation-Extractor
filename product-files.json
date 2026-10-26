@@ -11,6 +11,7 @@
     "extractor/AAEmu.NavigationExtractor/Program.cs",
     "product-files.json",
     "src/OfflineBaiGraph.cs",
-    "src/PrebuiltRoadSnapshot.cs"
+    "src/PrebuiltRoadSnapshot.cs",
+    "src/WorldNavigationDebugExporter.cs"
   ]
 }

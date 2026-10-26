@@ -30,6 +30,23 @@ internal static class NavigationExtractor
         }
         try
         {
+            if (args[0] == "graph")
+            {
+                if (args.Length != 3)
+                    throw new ArgumentException("Usage: graph <prebuilt-roads.json> <new-output.json>");
+                using var input = File.OpenRead(args[1]);
+                if (input.Length > 64 * 1024 * 1024)
+                    throw new InvalidDataException("Road input exceeds 64 MiB.");
+                using var reader = new StreamReader(input);
+                var snapshot = PrebuiltRoadSnapshotReader.Read(reader.ReadToEnd());
+                var graph = new WorldRoadGraphBuilder().Build(snapshot);
+                var json = WorldNavigationDebugExporter.Serialize(graph);
+                using var output = new FileStream(args[2], FileMode.CreateNew, FileAccess.Write, FileShare.None);
+                using var writer = new StreamWriter(output);
+                writer.WriteLine(json);
+                Console.WriteLine($"Exported graph: {graph.Nodes.Count} nodes, {graph.Edges.Count} edges.");
+                return 0;
+            }
             var options = ExtractorOptions.Parse(args);
             if (File.Exists(options.Output))
                 throw new InvalidOperationException($"Output already exists: {options.Output}");
@@ -697,6 +714,7 @@ internal sealed record ExtractorOptions(
     float MaximumSnap)
 {
     public const string Usage =
+        "Graph export: graph <prebuilt-roads.json> <new-output.json>\n" +
         "Usage: --game-pak <file> --output <json> --bounds <minX,minY,maxX,maxY> " +
         "--start <x,y,z> --end <x,y,z> --route-id <id> [--world main_world] " +
         "[--world-id 1] [--zone-id 0] [--trace <json>] [--road-prior <json>] " +
