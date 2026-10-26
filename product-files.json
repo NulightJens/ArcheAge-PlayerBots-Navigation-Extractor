@@ -1,15 +1,11 @@
 {
   "schemaVersion": 1,
   "files": [
+    ".gitattributes",
     ".gitignore",
-    "CHANGELOG.md",
-    "FAMILY.md",
     "LICENSE.GPL",
     "LICENSE.MIT",
     "LICENSE.md",
-    "README.md",
-    "assets/title-dark.svg",
-    "assets/title-light.svg",
     "extractor.json",
     "extractor/AAEmu.NavigationExtractor/AAEmu.NavigationExtractor.csproj",
     "extractor/AAEmu.NavigationExtractor/Program.cs",

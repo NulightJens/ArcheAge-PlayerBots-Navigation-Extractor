@@ -706,18 +706,29 @@ internal sealed record ExtractorOptions(
     public static ExtractorOptions Parse(string[] args)
     {
         var values = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var allowed = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        { "game-pak", "output", "bounds", "start", "end", "route-id", "world", "world-id", "zone-id",
+          "trace", "road-prior", "object-road-prior", "road-influence", "off-road-penalty", "simplify", "max-snap" };
         for (var index = 0; index < args.Length; index += 2)
         {
             if (index + 1 >= args.Length || !args[index].StartsWith("--", StringComparison.Ordinal))
                 throw new ArgumentException("Arguments must be --name value pairs.");
-            values[args[index][2..]] = args[index + 1];
+            var name = args[index][2..];
+            if (!allowed.Contains(name) || !values.TryAdd(name, args[index + 1]))
+                throw new ArgumentException($"Unknown or duplicate option: --{name}.");
         }
 
         string Required(string name) => values.TryGetValue(name, out var value) && !string.IsNullOrWhiteSpace(value)
             ? value
             : throw new ArgumentException($"Missing --{name}.");
         string Optional(string name, string fallback) => values.GetValueOrDefault(name, fallback);
-        float Float(string name, float fallback) => float.Parse(Optional(name, fallback.ToString("R", CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
+        float Float(string name, float fallback)
+        {
+            var number = float.Parse(Optional(name, fallback.ToString("R", CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
+            if (!float.IsFinite(number) || number < 0 || (name == "road-influence" && number == 0))
+                throw new ArgumentException($"--{name} requires a finite nonnegative number (road influence must be positive).");
+            return number;
+        }
         bool Bool(string name, bool fallback) => bool.Parse(Optional(name, fallback.ToString(CultureInfo.InvariantCulture)));
 
         var routeId = Required("route-id");
@@ -725,6 +736,9 @@ internal sealed record ExtractorOptions(
             throw new ArgumentException("--route-id contains unsupported characters.");
         var trace = values.GetValueOrDefault("trace");
         var roadPrior = values.GetValueOrDefault("road-prior");
+        var offRoadPenalty = double.Parse(Optional("off-road-penalty", "5"), CultureInfo.InvariantCulture);
+        if (!double.IsFinite(offRoadPenalty) || offRoadPenalty < 0)
+            throw new ArgumentException("--off-road-penalty must be finite and nonnegative.");
         return new ExtractorOptions(
             Path.GetFullPath(Required("game-pak")),
             Path.GetFullPath(Required("output")),
@@ -739,7 +753,7 @@ internal sealed record ExtractorOptions(
             string.IsNullOrWhiteSpace(roadPrior) ? null : Path.GetFullPath(roadPrior),
             Bool("object-road-prior", false),
             Float("road-influence", 24f),
-            double.Parse(Optional("off-road-penalty", "5"), CultureInfo.InvariantCulture),
+            offRoadPenalty,
             Float("simplify", 2f),
             Float("max-snap", 8f));
     }
@@ -763,6 +777,9 @@ internal sealed record ExtractorOptions(
         var parts = value.Split(',');
         if (parts.Length != count)
             throw new ArgumentException($"Expected {count} comma-separated numbers, got '{value}'.");
-        return parts.Select(part => float.Parse(part, CultureInfo.InvariantCulture)).ToArray();
+        var numbers = parts.Select(part => float.Parse(part, CultureInfo.InvariantCulture)).ToArray();
+        if (numbers.Any(number => !float.IsFinite(number)))
+            throw new ArgumentException("Coordinates must be finite.");
+        return numbers;
     }
 }

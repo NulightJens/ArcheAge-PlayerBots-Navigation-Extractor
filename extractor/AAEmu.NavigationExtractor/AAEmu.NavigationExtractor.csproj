@@ -12,7 +12,6 @@
   <ItemGroup>
     <!-- The graph and snapshot classes live in this repository, not in the bot module. -->
     <Compile Include="../../src/*.cs" LinkBase="Navigation" />
-    <!-- src/pending is excluded: those classes still ship inside the bot module (see SOURCE.md). -->
   </ItemGroup>
 
   <ItemGroup>

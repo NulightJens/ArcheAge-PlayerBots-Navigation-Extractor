@@ -1,7 +1,10 @@
-bin/
-obj/
-__pycache__/
+**/bin/
+**/obj/
+**/__pycache__/
 *.pyc
+*.log
+*.jsonl
 artifacts/
-output/
-.venv/
+tests/
+native-tests/
+TestResults/

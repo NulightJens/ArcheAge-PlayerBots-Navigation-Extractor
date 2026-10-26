@@ -405,15 +405,17 @@ public sealed class OfflineBaiGraph
     public OfflineBaiRoute FindRoute(
         int start,
         int goal,
-        RoadPriorIndex roadPrior = null,
+        RoadPriorIndex? roadPrior = null,
         double offRoadPenalty = 0d,
-        WaterTraversalIndex water = null,
-        OfflineTraversalCostProfile costProfile = null)
+        WaterTraversalIndex? water = null,
+        OfflineTraversalCostProfile? costProfile = null)
     {
         if (start < 0 || start >= _nodes.Count || goal < 0 || goal >= _nodes.Count)
             return new OfflineBaiRoute(false, [], 0d, 0, "endpoint_not_found");
         costProfile ??= new OfflineTraversalCostProfile();
         costProfile.Validate();
+        if (!double.IsFinite(offRoadPenalty) || offRoadPenalty < 0)
+            throw new ArgumentOutOfRangeException(nameof(offRoadPenalty));
 
         var queue = new PriorityQueue<int, double>();
         var distances = Enumerable.Repeat(double.PositiveInfinity, _nodes.Count).ToArray();
@@ -430,9 +432,9 @@ public sealed class OfflineBaiGraph
             if (current == goal)
                 break;
 
+            var from = _nodes[current].Position;
             foreach (var link in _adjacency[current])
             {
-                var from = _nodes[current].Position;
                 var to = _nodes[link.To].Position;
                 var geometric = Vector3.Distance(from, to);
                 if (!float.IsFinite(geometric) || geometric <= 0f || geometric > 100f)
