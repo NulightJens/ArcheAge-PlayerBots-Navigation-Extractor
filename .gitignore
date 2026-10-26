@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/__pycache__/
+*.pyc
+*.log
+*.jsonl
+artifacts/
+tests/
+native-tests/
+TestResults/
