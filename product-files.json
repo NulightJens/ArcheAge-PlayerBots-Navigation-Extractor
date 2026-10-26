@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    ".gitattributes",
+    ".gitignore",
+    "LICENSE.GPL",
+    "LICENSE.MIT",
+    "LICENSE.md",
+    "extractor.json",
+    "extractor/AAEmu.NavigationExtractor/AAEmu.NavigationExtractor.csproj",
+    "extractor/AAEmu.NavigationExtractor/Program.cs",
+    "product-files.json",
+    "src/OfflineBaiGraph.cs",
+    "src/PrebuiltRoadSnapshot.cs"
+  ]
+}
